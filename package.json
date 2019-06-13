@@ -1,0 +1,16 @@
+{
+  "name": "node-crawler",
+  "version": "1.0.0",
+  "description": "Web crawler with nodeJs",
+  "main": "index.js",
+  "repository": "https://github.com/kamogawa/node-crawler.git",
+  "author": "BEUMGOO <captain_kbg@naver.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node twitter_crawler"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "request": "^2.88.0"
+  }
+}
