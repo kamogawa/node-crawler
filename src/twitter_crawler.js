@@ -8,26 +8,12 @@ const url =
 
 const title_arr = ["user-object", "tweet-object"];
 
-title_arr.forEach(async v => {
+title_arr.forEach(async (v) => {
   await request(url + v, (e, response, body) => {
     if (e) {
       console.error(e);
     }
     try {
-      const $ = cheerio.load(body);
-
-      $(".main-content")
-        .children(".d05")
-        .remove();
-
-      $(".main-content")
-        .children(".d06-anchor-link-menu")
-        .remove();
-
-      let twitter_object = $(".main-content")
-        .text()
-        .replace(/^\n/gm, "");
-
       //compare();
       var dt = new Date();
       console.log(Date(dt.getFullYear()));
