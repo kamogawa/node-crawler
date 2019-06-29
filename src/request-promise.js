@@ -1,36 +1,50 @@
 const request = require("request");
 const async = require("async");
 const { makeDoc } = require("./etc/util");
-const { url } = require("./etc/config");
+const { url, save_dir } = require("./etc/config");
+const fs = require("fs");
 
-function getPage() {
-  function getUserObject(callback) {
-    request(url["user"], (e, response, body) => {
+const getPage = v => {
+  const pageRequest = callback => {
+    request(v, (e, response, body) => {
       const tw_doc = makeDoc(body);
-      callback(e, tw_doc);
+      callback(e, {
+        title: v,
+        body: tw_doc
+      });
     });
-  }
-  function getTweetObject(callback) {
-    request(url["twitter"], (e, response, body) => {
-      const tw_doc = makeDoc(body);
-      callback(e, tw_doc);
-    });
-  }
-  return async.series([
-    async.retryable(3, getUserObject),
-    async.retryable(3, getTweetObject)
-  ]);
-}
+  };
+  return async.auto([async.retryable(3, pageRequest)]);
+};
 
-async function crawler() {
+const crawler = async () => {
+  page_arr = [];
   try {
-    var result = await getPage();
+    await Promise.all(
+      url.map(async item => {
+        const page = await getPage(item);
+        page_arr.push(page[0]);
+      })
+    );
   } catch (error) {
     console.log("error");
   }
-  result.map(v => {
-    //
+
+  page_arr.map(v => {
+    var dt = new Date();
+    console.log(Date(dt.getFullYear()));
+    const month = dt.getMonth() + 1;
+    const date = dt.getMonth();
+
+    if (!fs.existsSync(`${save_dir}}/${v.title}`)) {
+      console.log("ディレクトリ生成");
+      fs.mkdirSync(`${save_dir}}/${v.title}`);
+    }
+    fs.writeFileSync(
+      `${save_dir}}/${v.title}/${month}${date}_${title}.txt`,
+      twitter_object
+    );
   });
-}
+};
 
 crawler();
