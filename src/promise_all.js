@@ -4,7 +4,8 @@ main();
 
 async function main() {
 
-  const movie_api = [
+  const movie_api = 
+  [
     {
       name: "api1",
       url:"https://api.themoviedb.org/3/movie/popular?api_key=d07205f9ad7855c70fd0b0a7b4459976&language=en-US"
@@ -12,6 +13,9 @@ async function main() {
     {
       name: "api2",
       url:"https://api.themoviedb.org/3/movie/popular?api_key=d07205f9ad7855c70fd0b0a7b4459976&language=en-US"
+    },
+    {
+      flag: false
     }
   ];
 
@@ -55,10 +59,10 @@ function callApi(params) {
           if (!error) {
             if (response.statusCode !== 200) {
               reject({statusCode: response.statusCode});
-            } else if(response.statusCode === 200){
+            } else {
               resolve({statusCode: resse.statusCode});
             }
-          } else if (error) {
+          } else {
             reject(error.stack);
           }     
         } catch (error) {
